@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
@@ -11,6 +12,7 @@ import (
 )
 
 type wasiExecutor struct {
+	mu       *sync.Mutex
 	runtime  wazero.Runtime
 	code     wazero.CompiledModule
 	instance api.Module
@@ -36,6 +38,7 @@ func newWasiExecutor(moduleSource []byte) (*wasiExecutor, error) {
 	}
 
 	return &wasiExecutor{
+		mu:      &sync.Mutex{},
 		runtime: runtime,
 		code:    code,
 	}, nil
@@ -52,6 +55,8 @@ func (e *wasiExecutor) Close(ctx context.Context) error {
 }
 
 func (e *wasiExecutor) Run(ctx context.Context, fnName string, input []byte) ([]byte, error) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
 	e.stdin.Reset()
 	e.stdout.Reset()
 	e.stderr.Reset()
