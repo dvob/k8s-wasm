@@ -7,7 +7,7 @@ type AdmissionConfig struct {
 type AdmissionModuleConfig struct {
 	File     string `json:"file"`
 	Mutating bool   `json:"mutating"`
-	Settings any
+	Settings interface{}
 }
 
 type AuthorizationConfig struct {
@@ -16,5 +16,5 @@ type AuthorizationConfig struct {
 
 type AuthorizationModuleConfig struct {
 	File     string `json:"file"`
-	Settings any
+	Settings interface{}
 }

@@ -19,14 +19,14 @@ type AuthenticationConfig struct {
 
 type AuthenticationModuleConfig struct {
 	File      string `json:"file"`
-	Settings  any
+	Settings  interface{}
 	Audiences []string
 }
 
 type Authenticator struct {
 	exec         *wasiExecutor
 	implicitAuds authn.Audiences
-	settings     any
+	settings     interface{}
 }
 
 func NewAuthenticatorWithConfig(config *AuthenticationModuleConfig) (*Authenticator, error) {
@@ -49,7 +49,7 @@ func NewAuthenticatorWithConfig(config *AuthenticationModuleConfig) (*Authentica
 
 type WASIAuthenticationRequest struct {
 	Request  *authv1.TokenReview `json:"request,omitempty"`
-	Settings any                 `json:"settings,omitempty"`
+	Settings interface{}         `json:"settings,omitempty"`
 }
 
 type WASIAuthenticationResponse struct {
