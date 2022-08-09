@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "test-wasi"
+name = "to-upper-wasi"
 version = "0.1.0"
