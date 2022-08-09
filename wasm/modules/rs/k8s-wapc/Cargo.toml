@@ -9,4 +9,4 @@ crate-type = ["cdylib"]
 [dependencies]
 wapc-guest = "1.0.0"
 k8s-openapi = { version = "0.15.0", features = ["v1_24"] }
-serde_json = "1.0.82"
+serde_json = "1.0.81"
