@@ -1,0 +1,12 @@
+[package]
+name = "k8s-wapc"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wapc-guest = "1.0.0"
+k8s-openapi = { version = "0.15.0", features = ["v1_24"] }
+serde_json = "1.0.82"

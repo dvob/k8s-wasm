@@ -1,0 +1,11 @@
+[package]
+name = "k8s-wasi"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+k8s-openapi = { version = "0.15.0", features = ["v1_24"] }
+serde_json = "1.0.82"

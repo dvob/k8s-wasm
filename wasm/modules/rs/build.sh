@@ -17,5 +17,12 @@ build() {
 	)
 }
 
+# to-upper
 build to-upper-raw wasm32-unknown-unknown
+build to-upper-wapc wasm32-unknown-unknown
 build to-upper-wasi wasm32-wasi
+
+# k8s
+build k8s-raw wasm32-unknown-unknown
+build k8s-wapc wasm32-unknown-unknown
+build k8s-wasi wasm32-wasi
