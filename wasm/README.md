@@ -1,8 +1,8 @@
 # WASM
 
-* [Simple example (use C code from JavaScript)](./simple-example/README.md)
-* [Runtimes](./runtimes/README.md)
-* [Modules](./modules/rs/README.md)
+* [Simple example (use C code from JavaScript)](./simple-example/)
+* [Runtimes](./runtimes/)
+* [Modules](./modules/rs/)
 
 # Links
 * Core Spec: https://webassembly.github.io/spec/core/

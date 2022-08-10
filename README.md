@@ -16,14 +16,14 @@ For more information check the documentation in this repository:
 
 * [Setup documentation](./docs/setup.md): How to setup a Kubernetes cluster with the extended API-Server.
 * [User documentatin](./docs/user.md): How to configure the WASM extensions in the API-Server (Authenticator, Authroizer, AdmissionController).
-* [Module specification](./spec/README.md): How to implement your own modules.
+* [Module specification](./spec/): How to implement your own modules.
   * In addition to this specification the AdmissionController of the extension supports to run [Kubewarden policies](https://hub.kubewarden.io/) which are not context aware.
 * [Rust module library](https://github.com/dvob/k8s-wasi-rs): A rust library which simplifies the creation of WASM modules.
 
 ## PoCs and Expreiments
-* [WASM](./wasm/README.md)
+* [WASM](./wasm/)
   * Runtime
   * Data passing
 * Kubernetes Integration
-  * [Webhook](./k8s/webhook/README.md)
-  * [Direct in API-Server](./k8s/api-server/README.md)
+  * [Webhook](./k8s/webhook/)
+  * [Direct in API-Server](./k8s/api-server/)
