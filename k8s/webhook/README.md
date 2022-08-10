@@ -116,3 +116,10 @@ kubectl create configmap mytest
 # if we verify the contents we see that the mutating admission added a value 'magic-value=foobar' to our configmap mytest
 kubectl get configmaps mytest -o yaml
 ```
+
+# Links
+
+* Official Documentation
+  * Authentication: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#webhook-token-authentication
+  * Authorization: https://kubernetes.io/docs/reference/access-authn-authz/webhook/
+  * AdmissionControllers: https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/
