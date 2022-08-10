@@ -1,0 +1,32 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraMounts:
+  - hostPath: ./authn-webhook.conf
+    containerPath: /config/authn-webhook.conf
+    readOnly: true
+    propagation: HostToContainer
+  - hostPath: ./authz-webhook.conf
+    containerPath: /config/authz-webhook.conf
+    readOnly: true
+    propagation: HostToContainer
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      extraArgs:
+        authorization-mode: Node,RBAC,Webhook
+        authorization-webhook-config-file: /etc/kubernetes/authz-webhook.conf
+        authentication-token-webhook-config-file: /etc/kubernetes/authn-webhook.conf
+      extraVolumes:
+      - name: "authn-config"
+        hostPath: "/config/authn-webhook.conf"
+        mountPath: "/etc/kubernetes/authn-webhook.conf"
+        readOnly: true
+        pathType: File
+      - name: "authz-config"
+        hostPath: "/config/authz-webhook.conf"
+        mountPath: "/etc/kubernetes/authz-webhook.conf"
+        readOnly: true
+        pathType: File

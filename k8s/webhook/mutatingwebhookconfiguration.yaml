@@ -1,0 +1,18 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: "configmap-example-mut"
+webhooks:
+- name: "configmap-example.puzzle.ch"
+  rules:
+  - apiGroups:   [""]
+    apiVersions: ["*"]
+    operations:  ["CREATE", "UPDATE"]
+    resources:   ["configmaps"]
+    scope:       "Namespaced"
+  clientConfig:
+    url: https://172.18.0.1:6666/mut-admit
+    caBundle: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJjakNDQVJpZ0F3SUJBZ0lQRWd0a0R0ZDNWR3kyUjBSUTZISTNNQW9HQ0NxR1NNNDlCQU1DTUJFeER6QU4KQmdOVkJBTVRCbk5sY25abGNqQWVGdzB5TWpBNE1UQXdOelU0TWpaYUZ3MHlNekE0TVRBd056VTRNalphTUJFeApEekFOQmdOVkJBTVRCbk5sY25abGNqQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJHRk14OGZwCjlqbU1lNnFxWjJyZTJNeDl0SGdQdEg2VTRyYWcwdlRIWFUrMi96UzY0MGl6MHVJYnZydUd3b1psZ2xXamEzdEYKa21sNTZMTmZtdXo5ckNXalV6QlJNQjBHQTFVZERnUVdCQlQrREFnOElJb0txdy9mUFE3UTRRQlNUT1E2ZXpBZgpCZ05WSFNNRUdEQVdnQlQrREFnOElJb0txdy9mUFE3UTRRQlNUT1E2ZXpBUEJnTlZIUkVFQ0RBR2h3U3NFZ0FCCk1Bb0dDQ3FHU000OUJBTUNBMGdBTUVVQ0lRRHh1eWM2QWtXU3pQMTFiL28wWnBla3VoL1VLWlFCL3FxMy9aYUQKcjFydE9RSWdDR1F2clErV2NzYWY3THVobGU4OWJHRndhb0JPdUZnZ3p5ZHZQSHkzSlhRPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+  admissionReviewVersions: ["v1beta1"]
+  sideEffects: None
+  timeoutSeconds: 5
