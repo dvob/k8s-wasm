@@ -10,7 +10,7 @@ The extension is based on the [release-1.24](https://github.com/kubernetes/kuber
 
 To code is **not intended for production use**. Its a proof of concept to show how WebAssembly could be used to extend Kubernetes.
 
-In the fork I created a new package `pkg/wasm` under which I implemented a new Authenticator, Authorizer and AdmissionController.
+In the fork I created a new package [`pkg/wasm`](https://github.com/dvob/kubernetes/tree/wasm/pkg/wasm) under which I implemented a new Authenticator, Authorizer and AdmissionController.
 Most of the implementation lives in this new package.
 There are only a few changes in the `pkg/kube-apiserver` to add command line options which allow to enable the WASM Authenticator, Authorizer and AdmissionController.
 
