@@ -1,7 +1,7 @@
 # Setup Kubernetes Cluster
 
 ## Setup VM
-Setup a server `k1` and make sure that we can SSH into the server.
+Setup a server `k1` and make sure that you can SSH into the server.
 For this we use an Ubuntu image:
 * https://cloud-images.ubuntu.com/minimal/releases/focal/release-20220810/
 
@@ -35,20 +35,20 @@ ssh k1 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 To test the API-Server custom builds a single node is enough.
 If you want more nodes in your cluster either way, you can repeat the actions above to add more nodes to a cluster.
 Instead of `kubeadm init` you have to run the appropriate `kubeadm join` command which is shown after `kubeadm init`.
-If you can generate a new join command like this:
+You also can generate a new join command like this:
 ```
 token=$( ssh k1 sudo kubeadm token generate )
 join_cmd=$( ssh k1 sudo kubeadm token create $token --print-join-command )
 ```
 
-Then run the join command on the additional node:
+Then run the join command on the additional node `k2`:
 ```
 ssh k2 sudo $join_cmd
 ```
 
 ### Install Network Plugin
-To test the features of the API-Server custom builds you don't need a cluster networking.
-If you wan't to install a network plugin you can install Flannel as follows:
+To test the features of the API-Server custom builds you don't need a network plugin.
+If you want to deploy workload in your cluster you can install a network plugin like Flannel as follows:
 ```
 ssh k1 sudo kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
@@ -56,12 +56,12 @@ ssh k1 sudo kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f https://raw
 ## Configure kubectl
 To connect to your test cluster from your local machine you have to configure `kubectl` accordingly.
 
-The easiest way to so is to copy the admin configuration from your server.
+The easiest way to do so is to copy the admin configuration from your server:
 ```
 ssh k1 sudo cat /etc/kubernetes/admin.conf > ~/.kube/test_config
 ```
 
-To not overwrite our existing configuration we put the configuration to a differnt location and then set the location of the config using the `KUBECONFIG` environment variable.
+To not overwrite our existing configuration we put the configuration to a different location and then set the location of the config using the `KUBECONFIG` environment variable.
 ```
 export KUBECONFIG=~/.kube/test_config
 ```

@@ -1,12 +1,12 @@
 # Kubernetes API-Server Extension
 
-To explore the extension of the API-Server with an Authentication, an Authroizer and an AdmissionController we implemented the simple example logic described [here](../).
+To explore the extension of the API-Server with an Authentication, an Authorizer and an AdmissionController we implemented the simple example logic described [here](../).
 You can find the code here:
 * Branch: https://github.com/dvob/kubernetes/tree/magic-examples
 * Diff (commit): https://github.com/dvob/kubernetes/commit/0919013fca6558437beb4afc7c2aeaeba66d2683
 
 ## Implementation
-To implement theses components we have to implement the appropriate interfaces and then integrate the implementation in the acutal API-Server.
+To implement theses components we have to implement the appropriate interfaces and then integrate the implementation in the actual API-Server.
 
 ### Authentication
 * [Interface](https://github.com/kubernetes/kubernetes/blob/0425c85cfc612cecdc4a333f5025163afec06615/staging/src/k8s.io/apiserver/pkg/authentication/authenticator/interfaces.go#L28)
