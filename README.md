@@ -8,11 +8,11 @@ This repository explains an extension of the Kubernetes API-Server which allows 
 For this I forked the Kubernetes project and extended the API-Server accordingly: https://github.com/dvob/kubernetes/tree/wasm.
 The extension is based on the [release-1.24](https://github.com/kubernetes/kubernetes/tree/release-1.24) branch.
 
-To code is **not intended for production use**. Its a proof of concept to show how WebAssembly could be used to extend Kubernetes.
+The extension is **not intended for production use**. Its a proof of concept to show how WebAssembly could be used to extend Kubernetes.
 
-In the fork I created a new package [`pkg/wasm`](https://github.com/dvob/kubernetes/tree/wasm/pkg/wasm) under which I implemented a new Authenticator, Authorizer and AdmissionController.
+In the fork I created a new package [`pkg/wasm`](https://github.com/dvob/kubernetes/tree/wasm/pkg/wasm) under which I implemented a Authenticator, Authorizer and AdmissionController.
 Most of the implementation lives in this new package.
-There are only a few changes in the `pkg/kube-apiserver` to add command line options which allow to enable the WASM Authenticator, Authorizer and AdmissionController.
+There are only a few changes in the `pkg/kube-apiserver` package to add command line options which allow to enable the WASM Authenticator, Authorizer and AdmissionController.
 
 To run the WebAssembly modules we use the [Wazero](https://github.com/tetratelabs/wazero) runtime.
 Wazero has zero dependencies and does not rely on CGO. Hence it can be easy integrated in a Go project without adding a ton of dependencies.
