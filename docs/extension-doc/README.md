@@ -1,4 +1,4 @@
-# Setup and Configure WASM Extionsion
+# Setup and Configure WASM Extension
 
 The following page explains how to setup and configure the WASM extension for the Kubernetes API-Server.
 
@@ -6,10 +6,7 @@ First you have to setup a Kubernetes cluster which runs with the custom build of
 See [cluster setup documentation](../cluster-setup/) on how to setup and run a Kubernetes cluster with a custom build of an API-Server.
 
 If you don't want to build the API-Server by your own you can use the following image:
-```
-dvob/kube-apiserver:wasm2
-TODO: replace with sha256 sum tag
-```
+* `dvob/kube-apiserver:wasm` (`dvob/kube-apiserver@sha256:69f9bc68e50bffb0db5ed105ee10b8098adc5a029449ad91543eb97e37440f15`)
 
 To configure the WASM extension you have to prepare configuration files and the actual WASM modules.
 Copy the files to the server which runs your API-Server.
@@ -18,7 +15,7 @@ In a typical kubeadm setup you also have to update the kube-apiserver mainfest t
 The easiest way to mount all required files into the apiserver Pod is to place all files in one directory and mount that directory into the API-Server.
 For this you have to extend `/etc/kubernetes/manifests/kube-apiserver.yaml` with the following parts:
 ```yaml
-# spec.containers[0].volumeMaounts
+# spec.containers[0].volumeMounts
     - mountPath: /etc/kubernetes/wasm
       name: wasm
       readOnly: true
@@ -67,9 +64,9 @@ To enable the WASM authentication you have to configure the following option on 
 --authentication-wasm-config-file=/etc/kubernetes/wasm/authn.conf
 ```
 
-The authentication extension consults each module in the module list until one sucessfully authenticates the token.
+The authentication extension consults each module in the module list until one successfully authenticates the token.
 
-## Example
+## Authentication Example
 `/etc/kubernetes/wasm/authn.conf`:
 ```yaml
 modules:
@@ -86,9 +83,9 @@ To enable the WASM authorization you have to add `WASM` to the authorization mod
 --authorization-wasm-config-file=/etc/kubernetes/wasm/authz.conf
 ```
 
-The authorization extension consults each module in the module list until one sucessfully authorizes the request.
+The authorization extension consults each module in the module list until one successfully authorizes the request.
 
-## Example
+## Authorization Example
 `/etc/kubernetes/wasm/authz.conf`:
 ```yaml
 modules:
@@ -101,7 +98,7 @@ Copy the module file from https://github.com/dvob/k8s-wasi-rs/releases/download/
 
 # Admission
 To enable the WASM admission you have to add the `WASM` admission controller to the list of enabled admission plugins `--enable-admission-plugins`.
-To configure the WASM admission controller you have to proviede the configuration with the admission control config file `--admission-control-config-file`.
+To configure the WASM admission controller you have to provide the configuration with the admission control config file `--admission-control-config-file`.
 ```
 --enable-admission-plugins=WASM
 --admission-control-config-file=/etc/kubernetes/wasm/admission.conf
@@ -134,10 +131,10 @@ If you specify the type `wasi` the module has to conform to the module specifica
 If `kubewarden` is used as type the call logic described [here](https://docs.kubewarden.io/writing-policies/spec/intro-spec) is used to run the module.
 You can find Kubewarden modules here: https://hub.kubewarden.io/
 
-The WASM admission configuration is part of the full admission configuration and is either included as seperate file or directly in the admisison configuration.
+The WASM admission configuration is part of the full admission configuration and is either included as separate file or directly in the admission configuration.
 
 File:
-``` 
+```yaml
 apiVersion: apiserver.config.k8s.io/v1
 kind: AdmissionConfiguration
 plugins:
@@ -146,7 +143,7 @@ plugins:
 ```
 
 Direct:
-```
+```yaml
 apiVersion: apiserver.config.k8s.io/v1
 kind: AdmissionConfiguration
 plugins:
@@ -170,9 +167,9 @@ plugins:
         resources: ["configmaps"]
 ```
 
-## Example
+## Admission Examples
 
-### Basic
+### Example with Magic-Modules
 `/etc/kubernetes/wasm/admission.conf`:
 ```yaml
 apiVersion: apiserver.config.k8s.io/v1
@@ -202,7 +199,7 @@ Copy the module files the following module files to `/etc/kubernetes/wasm/`
 * https://github.com/dvob/k8s-wasi-rs/releases/download/v0.1.1/magic_validator.wasm -> `/etc/kubernetes/wasm/magic_validator.wasm`
 * https://github.com/dvob/k8s-wasi-rs/releases/download/v0.1.1/magic_mutator.wasm -> `/etc/kubernetes/wasm/magic_mutator.wasm`
 
-### Kubewarden
+### Example with Kubewarden Policy
 In the following example we ensure that `configmaps` and `namespaces` have an annotation `puzzle.ch/owner`.
 For this we use the Kubewarden policy safe-annotations: https://github.com/kubewarden/safe-annotations-policy.
 
