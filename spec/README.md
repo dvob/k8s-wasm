@@ -37,12 +37,40 @@ If the function is called it has to read the input as described above and provid
 * ResponseData: [`v1.TokenReview`](https://pkg.go.dev/k8s.io/api/authentication/v1#TokenReview)
 
 ### Example
-Input:
+**Input**: User uses token `magic-token`:
 ```json
+{
+  "request": {
+    "apiVersion": "authentication.k8s.io/v1",
+    "kind": "TokenReview",
+    "spec": {
+      "token": "magic-token",
+      "audiences": [
+        "https://kubernetes.default.svc.cluster.local"
+      ]
+    }
+  }
+}
 ```
 
-Output:
+**Output**: Token gets authenticated:
 ```json
+{
+  "response": {
+    "apiVersion": "authentication.k8s.io/v1",
+    "kind": "TokenReview",
+    "status": {
+      "authenticated": true,
+      "user": {
+        "groups": [
+          "magic-group"
+        ],
+        "uid": "0",
+        "username": "magic-user"
+      }
+    }
+  }
+}
 ```
 
 ## Authorization
@@ -51,12 +79,41 @@ Output:
 * ResponseData: [`v1.SubjectAccessReview`](https://pkg.go.dev/k8s.io/api/authorization/v1#SubjectAccessReview)
 
 ### Example
-Input:
+**Input**: User would like to list pods in the namespace default:
 ```json
+{
+  "request": {
+    "apiVersion": "authorization.k8s.io/v1",
+    "kind": "SubjectAccessReview",
+    "spec": {
+      "resourceAttributes": {
+        "namespace": "default",
+        "verb": "list",
+        "version": "v1",
+        "resource": "pods"
+      },
+      "uid": "0",
+      "user": "magic-user",
+      "groups": [
+        "magic-group",
+        "system:authenticated"
+      ]
+    }
+  }
+}
 ```
 
-Output:
+**Output**: Request is not authorized:
 ```json
+{
+  "response": {
+    "apiVersion": "authorization.k8s.io/v1",
+    "kind": "SubjectAccessReview",
+    "status": {
+      "allowed": false
+    }
+  }
+}
 ```
 
 ## Admission
@@ -73,21 +130,153 @@ This simplifies the module implementation because you don't have to generate a `
 
 ### Example
 #### Validating Admission
-Input:
+**Input**: User wants to create a config map:
 ```json
+{
+  "request": {
+    "kind": "AdmissionReview",
+    "apiVersion": "admission.k8s.io/v1",
+    "request": {
+      "uid": "678b2f02-0837-4262-95ea-5781b2864ac0",
+      "kind": {
+        "group": "",
+        "version": "v1",
+        "kind": "ConfigMap"
+      },
+      "resource": {
+        "group": "",
+        "version": "v1",
+        "resource": "configmaps"
+      },
+      "requestKind": {
+        "group": "",
+        "version": "v1",
+        "kind": "ConfigMap"
+      },
+      "requestResource": {
+        "group": "",
+        "version": "v1",
+        "resource": "configmaps"
+      },
+      "name": "my-config",
+      "namespace": "default",
+      "operation": "CREATE",
+      "userInfo": {
+        "username": "magic-user",
+        "uid": "0",
+        "groups": [
+          "magic-group",
+          "system:authenticated"
+        ]
+      },
+      "object": {
+        "kind": "ConfigMap",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "my-config",
+          "namespace": "default",
+          "uid": "869d6f79-dbe3-4ef0-8255-ef817e6e673e",
+          "creationTimestamp": "2022-08-11T05:05:28Z"
+        },
+        "data": {
+          "magic-value": "foobar",
+          "not-allowed-value": "bar"
+        }
+      }
+    }
+  }
+}
 ```
 
-Output:
+**Output**: Creation of configmap is rejected because it contains a value which is not allowed:
 ```json
+{
+  "response": {
+    "kind": "AdmissionReview",
+    "apiVersion": "admission.k8s.io/v1",
+    "response": {
+      "uid": "678b2f02-0837-4262-95ea-5781b2864ac0",
+      "allowed": false,
+      "status": {
+        "apiVersion": "v1",
+        "kind": "Status",
+        "message": "value not-allowed-value not allowed in configmap"
+      }
+    }
+  }
+}
 ```
 
 #### Mutating Admission
-Input:
+**Input**: User creates configmap:
 ```json
+{
+  "request": {
+    "kind": "AdmissionReview",
+    "apiVersion": "admission.k8s.io/v1",
+    "request": {
+      "uid": "695570da-9d1d-476a-a58a-15e051768042",
+      "kind": {
+        "group": "",
+        "version": "v1",
+        "kind": "ConfigMap"
+      },
+      "resource": {
+        "group": "",
+        "version": "v1",
+        "resource": "configmaps"
+      },
+      "requestKind": {
+        "group": "",
+        "version": "v1",
+        "kind": "ConfigMap"
+      },
+      "requestResource": {
+        "group": "",
+        "version": "v1",
+        "resource": "configmaps"
+      },
+      "name": "my-config",
+      "namespace": "default",
+      "operation": "CREATE",
+      "userInfo": {
+        "username": "magic-user",
+        "uid": "0",
+        "groups": [
+          "magic-group",
+          "system:authenticated"
+        ]
+      },
+      "object": {
+        "kind": "ConfigMap",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "my-config",
+          "namespace": "default"
+        },
+        "data": {
+          "not-allowed-value": "bar"
+        }
+      }
+    }
+  }
+}
 ```
 
-Output:
+**Output**: Add `magic-value: foobar` to the configmap:
 ```json
+{
+  "response": {
+    "kind": "AdmissionReview",
+    "apiVersion": "admission.k8s.io/v1",
+    "response": {
+      "uid": "695570da-9d1d-476a-a58a-15e051768042",
+      "allowed": true,
+      "patchType": "Full",
+      "patch": "eyJhcGlWZXJzaW9uIjoidjEiLCJraW5kIjoiQ29uZmlnTWFwIiwiZGF0YSI6eyJtYWdpYy12YWx1ZSI6ImZvb2JhciIsIm5vdC1hbGxvd2VkLXZhbHVlIjoiYmFyIn0sIm1ldGFkYXRhIjp7Im5hbWUiOiJteS1jb25maWciLCJuYW1lc3BhY2UiOiJkZWZhdWx0In19Cg=="
+    }
+  }
+}
 ```
 
 # Develop Modules
