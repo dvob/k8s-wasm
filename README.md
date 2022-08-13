@@ -23,13 +23,13 @@ See [Module Specification](./spec/) for the full details on how data is passed b
 
 For Admission the extension also supports to use [Kubewarden policies](https://hub.kubewarden.io/) which are not context aware.
 
-See [User Documentation](./docs/main/) for a full description on how to setup and configure the extended API-Server.
+See [User Documentation](./docs/user-doc/) for a full description on how to setup and configure the extended API-Server.
 
 To implement your own modules see the [Module Specification](./spec/).
 If you want to use Rust to implement the modules you can use the [k8s_wasi](https://github.com/dvob/k8s-wasi-rs) helper library.
 
 ## Links Overview
-* [User Documentation](./docs/main): How to setup and configure the WASM extension
+* [User Documentation](./docs/user-doc): How to setup and configure the WASM extension
 * [Kubernetes Cluster Setup](./docs/cluseter_setup/): How to setup a Kubernetes cluster
 * [Module Specification](./spec/): 
   * [Rust module library](https://github.com/dvob/k8s-wasi-rs): Rust library which simplifies the creation of WASM modules according to the Module Specification.
