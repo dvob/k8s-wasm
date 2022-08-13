@@ -1,11 +1,11 @@
 # Simple WASM Example
 
-* Compile
+* Compile WASM module `add.wasm`
 ```
 clang --target=wasm32 --no-standard-libraries -Wl,--no-entry -Wl,--export=add -o add.wasm add.c
 ```
 
-* Run from JavaScript
+* Use compiled `add.wasm` from JavaScript
 ```
 node wasm.js
 ```

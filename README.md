@@ -1,30 +1,32 @@
-# Extend Kubernetes with WASM
+# Kubernetes API Access Extensions with WebAssembly
 
-This repository explains an extension of the Kubernetes API-Server which allows to use WebAssembly modules to perform the following actions:
+This repository explains an extension of the Kubernetes API-Server which allows to use WebAssembly modules to perform/extend the following actions:
 * Authentication
 * Authorization
 * Admission (validating and mutating)
 
-For this I forked the Kubernetes project and extended the API-Server accordingly: https://github.com/dvob/kubernetes/tree/wasm.
-The extension is based on the [release-1.24](https://github.com/kubernetes/kubernetes/tree/release-1.24) branch.
+To implement this I forked the Kubernetes source code and extended the API-Server accordingly: https://github.com/dvob/kubernetes/tree/wasm.
 
 The extension is **not intended for production use**. Its a proof of concept to show how WebAssembly could be used to extend Kubernetes.
 
-In the fork I created a new package [`pkg/wasm`](https://github.com/dvob/kubernetes/tree/wasm/pkg/wasm) under which I implemented a Authenticator, Authorizer and AdmissionController.
+In the fork I created a new package [`pkg/wasm`](https://github.com/dvob/kubernetes/tree/wasm/pkg/wasm) in which I implemented an Authenticator, Authorizer and AdmissionController.
 Most of the implementation lives in this new package.
 There are only a few changes in the `pkg/kube-apiserver` package to add command line options which allow to enable the WASM Authenticator, Authorizer and AdmissionController.
 
 To run the WebAssembly modules we use the [Wazero](https://github.com/tetratelabs/wazero) runtime.
 Wazero has zero dependencies and does not rely on CGO. Hence it can be easy integrated in a Go project without adding a ton of dependencies.
 
-To pass data between our extension (host) and the WASM module we expect that the modules target [WASI](https://wasi.dev/).
-The host then writes the request JSON encoded to the standard input (stdin) of the module.
-The module then can write the response to the standard output.
-See [Module Specification](./spec/) for more details.
+To pass data between our extension (host) and the WASM modules we use [WASI](https://wasi.dev/) to write data to the standard input and receive a result from the standard output.
+The host writes a JSON encoded request to the standard input (stdin) of the module.
+The module then can write the response based on the request to the standard output.
+See [Module Specification](./spec/) for the full details on how data is passed between host and modules.
 
 For Admission the extension also supports to use [Kubewarden policies](https://hub.kubewarden.io/) which are not context aware.
 
-See [User Documentation](./docs/main/) for more details on how to setup and configure the extended API-Server.
+See [User Documentation](./docs/main/) for a full description on how to setup and configure the extended API-Server.
+
+To implement your own modules see the [Module Specification](./spec/).
+If you want to use Rust to implement the modules you can use the [k8s_wasi](https://github.com/dvob/k8s-wasi-rs) helper library.
 
 ## Links Overview
 * [User Documentation](./docs/main): How to setup and configure the WASM extension

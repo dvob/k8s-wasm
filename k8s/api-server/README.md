@@ -49,8 +49,6 @@ With to tool [crane](https://github.com/google/go-containerregistry/tree/main/cm
 crane push _output/release-images/amd64/kube-apiserver.tar dvob/kube-apiserver:magic-example
 ```
 
-For more information on how to run a custom build of the API-Server see [here](../../docs/setup.md).
-
 Now you have to run the API-Server with the following options to enable our own MagicAuthenticator, MagicAuthorizer, and MagicAdmissionController:
 ```
 --magic-auth
