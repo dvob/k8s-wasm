@@ -13,7 +13,8 @@ The actual inner `requestData` and `responseData` depends on the use case (Authe
 	"settings": {}
 }
 ```
-The `settings`, can be omitted if your module does not use them.
+With the `settings` object you can pass parameters to your module. The `settings`, can be omitted if your module does not use them.
+The settings can have any format (e.g. contain a list, or nested objects, etc.).
 
 **Output** ([`Response`](https://github.com/dvob/kubernetes/blob/704f41c20a83b76e1542fca89b046cf854106df2/pkg/wasm/runner.go#L71)):
 ```json

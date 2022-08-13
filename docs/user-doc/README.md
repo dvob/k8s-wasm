@@ -8,7 +8,7 @@ See [cluster setup documentation](../cluster-setup/) on how to setup and run a K
 If you don't want to build the API-Server by your own you can use the following image:
 * `dvob/kube-apiserver:wasm` (`dvob/kube-apiserver@sha256:69f9bc68e50bffb0db5ed105ee10b8098adc5a029449ad91543eb97e37440f15`)
 
-To configure the WASM extension you have to prepare configuration files and the actual WASM modules.
+To configure the WASM extension you have to prepare the configuration files and the actual WASM modules.
 Copy the files to the server which runs your API-Server.
 In a typical kubeadm setup you also have to update the kube-apiserver mainfest to mount the files from your server into the API-Server Pod.
 
@@ -27,6 +27,7 @@ For this you have to extend `/etc/kubernetes/manifests/kube-apiserver.yaml` with
     name: wasm
 ```
 
+## Module Basic Configuration
 For all use cases (Authentication, Authorization and Admission) you configure a list of WASM modules which should be consulted:
 ```yaml
 modules:
@@ -56,7 +57,7 @@ modules:
 
 The admission modules support additional configurations (see below).
 
-If you change the configuration you have to restart the API-Server to apply the changes.
+If you update the configuration or the modules you have to restart the API-Server that the changes become active.
 
 # Authentication
 To enable the WASM authentication you have to configure the following option on the API-Server:
@@ -127,8 +128,8 @@ modules:
     resources: ["configmaps"]
 ```
 
-If you specify the type `wasi` the module has to conform to the module specification.
-If `kubewarden` is used as type the call logic described [here](https://docs.kubewarden.io/writing-policies/spec/intro-spec) is used to run the module.
+If you specify the type `wasi` the module has to conform to the [module specification](../../spec/).
+If `kubewarden` is used as type the modules are called as described in the [Kubewarden policy specification](https://docs.kubewarden.io/writing-policies/spec/intro-spec).
 You can find Kubewarden modules here: https://hub.kubewarden.io/
 
 The WASM admission configuration is part of the full admission configuration and is either included as separate file or directly in the admission configuration.
@@ -195,7 +196,7 @@ plugins:
         resources: ["configmaps"]
 ```
 
-Copy the module files the following module files to `/etc/kubernetes/wasm/`
+Copy the following module files to `/etc/kubernetes/wasm/`
 * https://github.com/dvob/k8s-wasi-rs/releases/download/v0.1.1/magic_validator.wasm -> `/etc/kubernetes/wasm/magic_validator.wasm`
 * https://github.com/dvob/k8s-wasi-rs/releases/download/v0.1.1/magic_mutator.wasm -> `/etc/kubernetes/wasm/magic_mutator.wasm`
 

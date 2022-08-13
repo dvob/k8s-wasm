@@ -30,13 +30,13 @@ If you want to use Rust to implement the modules you can use the [k8s_wasi](http
 
 ## Links Overview
 * [User Documentation](./docs/user-doc): How to setup and configure the WASM extension
-* [Kubernetes Cluster Setup](./docs/cluseter_setup/): How to setup a Kubernetes cluster
+* [Kubernetes Cluster Setup](./docs/cluster-setup/): How to setup a Kubernetes cluster
 * [Module Specification](./spec/): 
   * [Rust module library](https://github.com/dvob/k8s-wasi-rs): Rust library which simplifies the creation of WASM modules according to the Module Specification.
 * Experiments (PoCs)
   * [WASM](./wasm/)
     * [Runtimes](./wasm/runtime): Comparison of WebAssembly Runtimes
-    * Data passing ([Modules](./wasm/modules/rs), [Runtimes](./wasm/runtimes/)
+    * Data passing ([Modules](./wasm/modules/rs), [Runtimes](./wasm/runtime/))
   * [Kubernetes Integration](./k8s/)
     * [Webhook](./k8s/webhook/)
     * [Direct in API-Server](./k8s/api-server/)
