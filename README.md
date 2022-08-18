@@ -16,10 +16,9 @@ There are only a few changes in the `pkg/kube-apiserver` package to add command 
 To run the WebAssembly modules we use the [Wazero](https://github.com/tetratelabs/wazero) runtime.
 Wazero has zero dependencies and does not rely on CGO. Hence it can be easy integrated in a Go project without adding a ton of dependencies.
 
-To pass data between our extension (host) and the WASM modules we use [WASI](https://wasi.dev/) to write data to the standard input and receive a result from the standard output.
-The host writes a JSON encoded request to the standard input (stdin) of the module.
-The module then can write the response based on the request to the standard output.
-See [Module Specification](./spec/) for the full details on how data is passed between host and modules.
+To pass data between our extension (host) and the WASM modules we make use of the capabilities of [WASI](https://wasi.dev/) (`fd_read`, `fd_write`).
+The module reads the input data form standard input and writes the result to the standard output.
+See the [Module specification](./spec/) for the full details on how data is passed between host and modules.
 For Admission the extension also supports to use [Kubewarden policies](https://hub.kubewarden.io/) which are not context aware.
 
 See [Build and test Kubernetes API server](./docs/build-publish/) for a manual on how to build and test API server fork with the WASM extension.
