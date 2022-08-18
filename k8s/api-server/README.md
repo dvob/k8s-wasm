@@ -1,12 +1,12 @@
-# Kubernetes API-Server Extension
+# Kubernetes API server Extension
 
-To explore the extension of the API-Server with an Authentication, an Authorizer and an AdmissionController we implemented the simple example logic described [here](../).
+To explore the extension of the API server with an Authentication, an Authorizer and an AdmissionController we implemented the simple example logic described [here](../).
 You can find the code here:
 * Branch: https://github.com/dvob/kubernetes/tree/magic-examples
 * Diff (commit): https://github.com/dvob/kubernetes/commit/0919013fca6558437beb4afc7c2aeaeba66d2683
 
 ## Implementation
-To implement theses components we have to implement the appropriate interfaces and then integrate the implementation in the actual API-Server.
+To implement theses components we have to implement the appropriate interfaces and then integrate the implementation in the actual API server.
 
 ### Authentication
 * [Interface](https://github.com/kubernetes/kubernetes/blob/0425c85cfc612cecdc4a333f5025163afec06615/staging/src/k8s.io/apiserver/pkg/authentication/authenticator/interfaces.go#L28)
@@ -38,18 +38,18 @@ Build Kubernetes (see the official Kubernetes [build documentation](https://gith
 make quick-release-images KUBE_BUILD_PLATFORMS=linux/amd64
 ```
 
-This publishes the build artifacts to the `_output` directory. For the API-Server you can find the following artifacts:
+This publishes the build artifacts to the `_output` directory. For the API server you can find the following artifacts:
 * Binary: `:/_output/release-stage/server/linux-amd64/kubernetes/server/bin/kube-apiserver`
 * Docker image (TAR): `./_output/release-images/amd64/kube-apiserver.tar`
 
-Depending on your setup you either have to copy the `kube-apiserver` binary to the server or publish the `kube-apiserver` Docker image somewhere to use it as your new API-Server.
+Depending on your setup you either have to copy the `kube-apiserver` binary to the server or publish the `kube-apiserver` Docker image somewhere to use it as your new API server.
 
 With the tool [crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) you can publish a Docker image in the TAR format to a registry easily:
 ```
 crane push _output/release-images/amd64/kube-apiserver.tar dvob/kube-apiserver:magic-example
 ```
 
-Now you have to run the API-Server with the following options to enable our own MagicAuthenticator, MagicAuthorizer, and MagicAdmissionController:
+Now you have to run the API server with the following options to enable our own MagicAuthenticator, MagicAuthorizer, and MagicAdmissionController:
 ```
 --magic-auth
 --authorization-mode=Node,RBAC,Magic

@@ -1,4 +1,4 @@
-# Kubernetes API-Server Webhook Integration
+# Kubernetes API server Webhook Integration
 
 The webhook server in this directory implements the following webhooks:
 * Authentication `/authn`
@@ -19,14 +19,14 @@ The following section General explains the test setup for the webhooks in genera
 
 ### General
 You can test the webhook server with any Kubernetes cluster.
-To configure the authentication and authorization webhooks you have to set the following options on the API-Server:
+To configure the authentication and authorization webhooks you have to set the following options on the API server:
 ```
 --authorization-mode=Node,RBAC,Webhook
 --authorization-webhook-config-file=/etc/kubernetes/authz-webhook.conf
 --authentication-token-webhook-config-file=/etc/kubernetes/authn-webhook.conf
 ```
 
-In a typical Kubernetes installation where your API-Server is started by the kubelet you have to add the appropriate options to the manifest of the kube-apiserver (`/etc/kubernetes/manifests/kube-apiserver.yaml`):
+In a typical Kubernetes installation where your API server is started by the kubelet you have to add the appropriate options to the manifest of the kube-apiserver (`/etc/kubernetes/manifests/kube-apiserver.yaml`):
 ```
 # api server options
     - --authorization-mode=Node,RBAC,Webhook
@@ -55,7 +55,7 @@ To configure the admission webhooks you have to apply the MutatingWebhookConfigu
 kubectl apply -f mutatingwebhookconfiguration.yaml -f validatingwebhookconfiguration.yaml
 ```
 
-The example configurations `authz-webhook.conf`, `authn-webhook.conf`, `mutatingwebhookconfiguration.yaml` and `validatingwebhookconfiguration.yaml` assume that the Kubernetes API-Server can reach your webhook server on the IP `172.18.0.1`.
+The example configurations `authz-webhook.conf`, `authn-webhook.conf`, `mutatingwebhookconfiguration.yaml` and `validatingwebhookconfiguration.yaml` assume that the Kubernetes API server can reach your webhook server on the IP `172.18.0.1`.
 If your setup is different you have to change the IP configurations accordingly (you can also use a hostname) and also create a certificate which contains your IP/hostname.
 If you generate a new certificate you also have to update the `caBundle` in the `mutatingwebhookconfiguration.yaml` and `validatingwebhookconfiguration.yaml`.
 

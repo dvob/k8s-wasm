@@ -1,9 +1,9 @@
 # Kubernetes Integration
 
-There are two main ways how we can implement custom logic for the API-Server which gets called during Authentication, Authorization and Admission:
+There are two main ways how we can implement custom logic for the API server which gets called during Authentication, Authorization and Admission:
 
-* Webhooks: Configure webhooks in the API-Server
-* Direct: Include the custom logic in the API-Server code
+* Webhooks: Configure webhooks in the API server
+* Direct: Include the custom logic in the API server code
 
 To explore these to variants we implement the following logic in both ways:
 

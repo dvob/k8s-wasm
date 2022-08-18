@@ -13,7 +13,7 @@ If you don't want to build the API server by your own you can use the following 
 
 ## Mount configuration
 To configure the WASM extension you have to prepare the configuration files and the actual WASM modules.
-Copy the files to the server which runs your API-Server.
+Copy the files to the server which runs your API server.
 In a typical kubeadm setup you also have to update the kube-apiserver mainfest to mount the files from your server into the API server Pod.
 
 The easiest way to mount all required files into the API server Pod is to place all files in one directory and mount that directory into the API server.

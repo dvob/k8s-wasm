@@ -1,11 +1,11 @@
 # Kubernetes API Access Extensions with WebAssembly
 
-This repository explains an extension of the Kubernetes API-Server which allows to use WebAssembly modules to perform/extend the following actions:
+This repository explains an extension of the Kubernetes API server which allows to use WebAssembly modules to perform/extend the following actions:
 * Authentication
 * Authorization
 * Admission (validating and mutating)
 
-To implement this I forked the Kubernetes source code and extended the API-Server accordingly: https://github.com/dvob/kubernetes/tree/wasm.
+To implement this I forked the Kubernetes source code and extended the API server accordingly: https://github.com/dvob/kubernetes/tree/wasm.
 
 The extension is **not intended for production use**. Its a proof of concept to show how WebAssembly could be used to extend Kubernetes.
 
@@ -40,4 +40,4 @@ If you want to use Rust to implement the modules you can use the [k8s_wasi](http
     * Data passing ([Modules](./wasm/modules/rs), [Runtimes](./wasm/runtime/))
   * [Kubernetes Integration](./k8s/)
     * [Webhook](./k8s/webhook/)
-    * [Direct in API-Server](./k8s/api-server/)
+    * [Direct in API server](./k8s/api-server/)
