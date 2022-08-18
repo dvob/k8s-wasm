@@ -6,16 +6,16 @@ The webhook server in this directory implements the following webhooks:
 * Validating Admission `/admit`
 * Mutating Admission `/admit-mut`
 
-For each of the action a minimal example got implemented.
+For each of the actions a minimal example has been implemented.
 
 The webhooks perform the following actions:
-* `/authn` handels TokenReview requests for authentication. If the token equals to `magic-token` the user is authenticated to user `magic-user` with the group `magic-group`.
+* `/authn` handles TokenReview requests for authentication. If the token equals `magic-token` the user is authenticated as user `magic-user` with the group `magic-group`.
 * `/authz` handles SubjectAccessReview requests for authorization. It allows members of the group `magic-group` to manage `configmaps`.
-* `/admit` handles AdmissionReview requests and performs validation on configmaps. If the configmap contains a value `not-allowed-value` it rejects the request.
+* `/admit` handles AdmissionReview requests and performs validation on configmaps. If the configmap contains the value `not-allowed-value`, it rejects the request.
 * `/admit-mut` handles AdmissionReview requests and performs mutation. It adds the value `magic-value=foobar` to every configmap.
 
 ## Setup Test Cluster
-The following section General explains the test setup for the webhooks in general. For a quick setup with kind see section "Setup with kind" below.
+The following section explains the test setup for the webhooks in general. For a quick setup with kind see section "Setup with kind" below.
 
 ### General
 You can test the webhook server with any Kubernetes cluster.
@@ -91,7 +91,7 @@ go build
 ```
 
 ## Test
-After everything is setup can test if your setup works.
+After everything is setup, you can test if your setup works.
 The following commands assume that your cluster is configured in a context named `kind-kind` (default for the kind setup described above).
 ```bash
 kubectl config use-context kind-kind
