@@ -1,7 +1,7 @@
 # WASM
 
 * [Simple example (use C code from JavaScript)](./simple-example/)
-* [Runtimes](./runtimes/)
+* [Runtimes](./runtime/)
 * [Modules](./modules/rs/)
 
 This directory contains code to explore how we can use WebAssembly modules from Go and how we can pass data between the host and the module.
