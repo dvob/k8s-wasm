@@ -23,7 +23,7 @@ vu create --disk-size 100GB --memory 4G --cpu 2 ubuntu-20.04-minimal-cloudimg-am
 ```
 
 ## Setup Kubernetes
-If the server is up and running we first run the [setup script](./setup.sh) on the server to install kubelet, kubeadm, containerd, etc.
+If the server is up and running, we first run the [setup script](./setup.sh) on the server to install kubelet, kubeadm, containerd, etc.
 The setup script basically performs the tasks described under https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/.
 
 Run the setup script on the server:
@@ -68,7 +68,7 @@ The easiest way to do so is to copy the admin configuration from your server:
 ssh k1 sudo cat /etc/kubernetes/admin.conf > ~/.kube/test_config
 ```
 
-To not overwrite our existing configuration we put the configuration to a different location and then set the location of the config using the `KUBECONFIG` environment variable.
+To not overwrite our existing configuration we put the configuration in a different location and then set the location of the config using the `KUBECONFIG` environment variable.
 ```
 export KUBECONFIG=~/.kube/test_config
 ```
@@ -81,7 +81,7 @@ In the following example I use the image `dvob/kube-apiserver:dev`.
 
 Login to the `k1` server and update the manifest of the API server `/etc/kubernetes/manifests/kube-apiserver.yaml` under `spec.containers[0].image` and set it to `dvob/kube-apiserver:dev`.
 
-Alternatively you can run this command:
+Alternatively, you can run this command:
 ```
 ssh k1 'sudo kubectl set image -f /etc/kubernetes/manifests/kube-apiserver.yaml kube-apiserver=dvob/kube-apiserver:dev --local -o yaml | sudo sponge /etc/kubernetes/manifests/kube-apiserver.yaml'
 ```
