@@ -5,7 +5,7 @@ There are two main ways how we can implement custom logic for the API server whi
 * Webhooks: Configure webhooks in the API server
 * Direct: Include the custom logic in the API server code
 
-To explore these to variants we implement the following logic in both ways:
+To explore these two variants we implement the following logic in both ways:
 
 * **Authentication**: If the token `magic-token` is provided the request is authenticated as user `magic-user` which is a member of the group `magic-group`.
 * **Authorization**: Allow users which are member of the group `magic-group` to manage configmaps.
