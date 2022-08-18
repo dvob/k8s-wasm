@@ -6,6 +6,12 @@ These examples were used to experiment how we can pass data between runtime and 
 We can't use a Cargo workspace here because we want to build the individual crates for different targets.
 Some for `wasm32-unknown-unknown` and some for ` wasm32-wasi`.
 
+Before you run build make sure that you have installed the required targets:
+```
+rustup target add wasm32-unknown-unknown
+rustup target add wasm32-wasi
+```
+
 Run `./build.sh` to build all modules with the correct target.
 ```
 ./build.sh
