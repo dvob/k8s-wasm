@@ -10,7 +10,7 @@ To extend the Kubernetes Authentication, Authorization and Admission process we 
 For this we use data in the same format as it is used for the webhooks (TokenReview, SubjectAccessReview, AdmissionReview).
 
 First we have to verify that we can pass raw bytes (`[]byte`) back and forth.
-For this we implement a module wich takes a string and transforms it to upper case.
+For this we implement a module which takes a string and transforms it to upper case.
 In a second step we send a JSON encoded `TokenReview` back and forth.
 
 We implement these basic steps which we later use in our Kubernetes extension with different data passing mechanisms:
