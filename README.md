@@ -20,10 +20,11 @@ To pass data between our extension (host) and the WASM modules we use [WASI](htt
 The host writes a JSON encoded request to the standard input (stdin) of the module.
 The module then can write the response based on the request to the standard output.
 See [Module Specification](./spec/) for the full details on how data is passed between host and modules.
-
 For Admission the extension also supports to use [Kubewarden policies](https://hub.kubewarden.io/) which are not context aware.
 
-See [User Documentation](./docs/user-doc/) for a full description on how to setup and configure the extended API-Server.
+See [Build and test Kubernetes API server](./docs/build-publish/) for a manual on how to build and test API server fork with the WASM extension.
+
+See [User Documentation](./docs/user-doc/) for a full description on how to setup and configure the extended API server.
 
 To implement your own modules see the [Module Specification](./spec/).
 If you want to use Rust to implement the modules you can use the [k8s_wasi](https://github.com/dvob/k8s-wasi-rs) helper library.

@@ -44,7 +44,7 @@ This publishes the build artifacts to the `_output` directory. For the API-Serve
 
 Depending on your setup you either have to copy the `kube-apiserver` binary to the server or publish the `kube-apiserver` Docker image somewhere to use it as your new API-Server.
 
-With to tool [crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) you can publish a Docker image in the TAR format to a registry easily:
+With the tool [crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) you can publish a Docker image in the TAR format to a registry easily:
 ```
 crane push _output/release-images/amd64/kube-apiserver.tar dvob/kube-apiserver:magic-example
 ```
