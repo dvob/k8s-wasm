@@ -5,10 +5,10 @@ The following page explains how to setup and configure the WASM extension for th
 ## Setup
 First you have to build the API server which contains the WASM extension. See [Build and test Kubernetes API server](../build-publish/).
 
-Then you have to setup a Kubernetes cluster with the build of the Kubernetes API server which contains the WASM extension.
-See [cluster setup documentation](../cluster-setup/) on how to setup and run a Kubernetes cluster with a custom build of an API server.
+Then you have to setup a Kubernetes cluster with the freshly built API server.
+See the [cluster setup documentation](../cluster-setup/) on how to setup and run a Kubernetes cluster with a custom build of an API server.
 
-If you don't want to build the API server by your own you can use the following image:
+If you don't want to build the API server on your own, you can use the following image:
 * `dvob/kube-apiserver:wasm` (`dvob/kube-apiserver@sha256:69f9bc68e50bffb0db5ed105ee10b8098adc5a029449ad91543eb97e37440f15`)
 
 ## Mount configuration
@@ -32,7 +32,7 @@ For this you have to extend `/etc/kubernetes/manifests/kube-apiserver.yaml` with
 ```
 
 ## Module Basic Configuration
-For all use cases (Authentication, Authorization and Admission) you configure a list of WASM modules which should be consulted on a request:
+For all use cases (Authentication, Authorization and Admission) you configure a list of WASM modules to be checked when a request is received:
 ```yaml
 modules:
 - module: /etc/kubernetes/wasm/my_module1.wasm
@@ -61,10 +61,10 @@ modules:
 
 The admission modules support additional configurations (see below).
 
-If you update the configuration or the modules you have to restart the API server that the changes become active.
+If you update the configuration or the modules you have to restart the API server so that the changes become active.
 
 # Authentication
-To enable the WASM authentication you have to configure the following option on the API server:
+To enable WASM authentication you have to configure the following option on the API server:
 ```
 --authentication-wasm-config-file=/etc/kubernetes/wasm/authn.conf
 ```
@@ -83,7 +83,7 @@ Copy the module file from https://github.com/dvob/k8s-wasi-rs/releases/download/
 The magic authenticator authenticates requests which use the token `magic-token`.
 
 # Authorization
-To enable the WASM authorization you have to add `WASM` to the authorization modes and specify a modules configuration:
+To enable WASM authorization you have to add `WASM` to the authorization modes and specify a modules configuration:
 ```
 --authorization-mode=Node,RBAC,WASM
 --authorization-wasm-config-file=/etc/kubernetes/wasm/authz.conf
@@ -103,7 +103,7 @@ Copy the module file from https://github.com/dvob/k8s-wasi-rs/releases/download/
 The magic authorizer authorizes your request if you are a member of the `magic-group` and you try to access a config map.
 
 # Admission
-To enable the WASM admission you have to add the `WASM` admission controller to the list of enabled admission plugins `--enable-admission-plugins`.
+To enable WASM admission you have to add the `WASM` admission controller to the list of enabled admission plugins `--enable-admission-plugins`.
 To configure the WASM admission controller you have to provide the configuration with the admission control config file `--admission-control-config-file`.
 ```
 --enable-admission-plugins=WASM
@@ -137,7 +137,7 @@ If you specify the type `wasi` the module has to conform to the [module specific
 If `kubewarden` is used as type the modules are called as described in the [Kubewarden policy specification](https://docs.kubewarden.io/writing-policies/spec/intro-spec).
 You can find Kubewarden modules here: https://hub.kubewarden.io/
 
-The WASM admission configuration is part of the full admission configuration and is either included as separate file or directly in the admission configuration.
+The WASM admission configuration is part of the full admission configuration and is either included as a separate file or directly in the admission configuration.
 
 File:
 ```yaml
