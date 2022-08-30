@@ -9,7 +9,7 @@ import (
 
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
-	wasi "github.com/tetratelabs/wazero/wasi_snapshot_preview1"
+	wasi "github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )
 
 type WASIRuntime struct {
@@ -25,7 +25,7 @@ type WASIRuntime struct {
 func NewWASIRuntime(moduleSource []byte) (runner.RawRunner, error) {
 	ctx := context.Background()
 
-	runtime := wazero.NewRuntime()
+	runtime := wazero.NewRuntime(ctx)
 
 	if _, err := wasi.Instantiate(ctx, runtime); err != nil {
 		return nil, err

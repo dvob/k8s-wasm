@@ -2,6 +2,7 @@ package wapc
 
 import (
 	"context"
+	"os"
 
 	"github.com/wapc/wapc-go"
 	"github.com/wapc/wapc-go/engines/wasmer"
@@ -29,14 +30,15 @@ func NewWazeroRuntime(code []byte) (*Runtime, error) {
 func NewRuntime(code []byte, engine wapc.Engine) (*Runtime, error) {
 	ctx := context.Background()
 
-	module, err := engine.New(ctx, code, nil)
+	module, err := engine.New(ctx, wapc.NoOpHostCallHandler, code, &wapc.ModuleConfig{
+		Logger: wapc.PrintlnLogger,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	})
 	if err != nil {
 		return nil, err
 	}
 	// TODO: defer module.Close()
-
-	module.SetLogger(wapc.Println)
-	module.SetWriter(wapc.Print)
 
 	instance, err := module.Instantiate(ctx)
 	if err != nil {

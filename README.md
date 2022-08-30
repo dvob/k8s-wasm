@@ -14,7 +14,7 @@ Most of the implementation lives in this new package.
 There are only a few changes in the `pkg/kube-apiserver` package to add command line options enabling the WASM Authenticator, Authorizer and AdmissionController.
 
 To run the WebAssembly modules we use the [Wazero](https://github.com/tetratelabs/wazero) runtime.
-Wazero has zero dependencies and does not rely on CGO. Hence it can be easy integrated in a Go project without adding a ton of dependencies.
+Wazero has zero dependencies and does not rely on CGO. Hence, it can be easily integrated in a Go project without adding a ton of dependencies.
 
 To pass data between our extension (host) and the WASM modules we make use of the capabilities of [WASI](https://wasi.dev/) (`fd_read`, `fd_write`).
 The module reads the input data from standard input and writes the result to standard output.
