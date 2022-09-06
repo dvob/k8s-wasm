@@ -20,7 +20,7 @@ func NewRawRuntime(moduleSource []byte) (runner.RawRunner, error) {
 
 	engine := &RawRuntime{}
 
-	module, err := wazero.NewRuntime().InstantiateModuleFromBinary(ctx, moduleSource)
+	module, err := wazero.NewRuntime(ctx).InstantiateModuleFromBinary(ctx, moduleSource)
 	if err != nil {
 		return nil, err
 	}
