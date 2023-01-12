@@ -31,7 +31,7 @@ func NewWASIRuntime(moduleSource []byte) (runner.RawRunner, error) {
 		return nil, err
 	}
 
-	code, err := runtime.CompileModule(ctx, moduleSource, wazero.NewCompileConfig())
+	code, err := runtime.CompileModule(ctx, moduleSource)
 	if err != nil {
 		return nil, err
 	}
