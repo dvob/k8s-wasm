@@ -20,7 +20,7 @@ func NewRawRuntime(moduleSource []byte) (runner.RawRunner, error) {
 
 	engine := &RawRuntime{}
 
-	module, err := wazero.NewRuntime(ctx).InstantiateModuleFromBinary(ctx, moduleSource)
+	module, err := wazero.NewRuntime(ctx).Instantiate(ctx, moduleSource)
 	if err != nil {
 		return nil, err
 	}
@@ -49,8 +49,9 @@ func (e *RawRuntime) Run(ctx context.Context, fnName string, input []byte) ([]by
 		return nil, fmt.Errorf("failed to call alloc function: %w", err)
 	}
 
-	if !e.module.Memory().Write(ctx, uint32(inputPtr[0]), input) {
-		return nil, fmt.Errorf("Memory.Write(%d, %d) out of range of memory size %d", inputPtr[0], len(input), e.module.Memory().Size(ctx))
+	mem := e.module.Memory()
+	if !mem.Write(uint32(inputPtr[0]), input) {
+		return nil, fmt.Errorf("Memory.Write(%d, %d) out of range of memory size %d", inputPtr[0], len(input), mem.Size())
 	}
 
 	resPtrSize, err := runFn.Call(ctx, inputPtr[0], uint64(len(input)))
@@ -61,10 +62,10 @@ func (e *RawRuntime) Run(ctx context.Context, fnName string, input []byte) ([]by
 	resultPtr := uint32(resPtrSize[0] >> 32)
 	resultSize := uint32(resPtrSize[0])
 
-	bytes, ok := e.module.Memory().Read(ctx, resultPtr, resultSize)
+	bytes, ok := mem.Read(resultPtr, resultSize)
 
 	if !ok {
-		return nil, fmt.Errorf("Memory.Read(%d, %d) out of range of memory size %d", resultPtr, resultSize, e.module.Memory().Size(ctx))
+		return nil, fmt.Errorf("Memory.Read(%d, %d) out of range of memory size %d", resultPtr, resultSize, mem.Size())
 	}
 
 	_, err = e.dealloc.Call(ctx, uint64(resultPtr), uint64(resultSize))

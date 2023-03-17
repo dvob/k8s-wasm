@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/bytecodealliance/wasmtime-go v1.0.0
-	github.com/tetratelabs/wazero v1.0.0-pre.4
-	github.com/wapc/wapc-go v0.5.6
+	github.com/tetratelabs/wazero v1.0.1
+	github.com/wapc/wapc-go v0.6.0
 	github.com/wasmerio/wasmer-go v1.0.4
 	k8s.io/api v0.24.3
 )
